@@ -1,0 +1,15 @@
+1: 
+use uc4atividade
+
+2: 
+db.Produto.insertMany([{ nome: 'Ventilador de mesa', descricao: 'Ventilador branco 40cm 110v', estoque: 5, fabricante: 'Bons Ventos' }]);
+
+3: 
+db.Produto.updateOne({ nome: 'Ventilador de mesa' }, { $set: { estoque: 10 } });
+
+4: 
+db.Produto.find({ nome: 'Ventilador de mesa' });
+
+5: 
+db.Produto.find({ fabricante: 'Bons Ventos' });
+

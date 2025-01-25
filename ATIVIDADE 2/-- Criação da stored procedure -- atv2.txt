@@ -1,0 +1,35 @@
+-- Criação da stored procedure --
+
+SET GLOBAL log_bin_trust_function_creators = 1;
+
+DELIMITER //
+
+CREATE PROCEDURE uc4atividades.lista_compras_cliente (
+    IN cliente_id INT,
+    IN data_inicial DATE,
+    IN data_final DATE
+)
+BEGIN
+    SELECT
+        c.nome as nome_cliente,
+        v.id as id_compra,
+        v.valor_total as total,
+        p.nome as nome_produto,
+        iv.quantidade
+    FROM
+        uc4atividades.cliente c
+    JOIN
+        uc4atividades.venda v ON c.id = v.cliente_id
+    JOIN
+        uc4atividades.item_venda iv ON v.id = iv.venda_id
+    JOIN
+        uc4atividades.produto p ON iv.produto_id = p.id
+    WHERE
+        c.id = cliente_id
+        AND v.data BETWEEN data_inicial AND data_final;
+END //
+
+DELIMITER ;
+
+-- Exemplo de chamada da stored procedure
+CALL `uc4atividades`.`lista_compras_cliente`(1, '2023-01-01', '2023-12-31');
